@@ -1,0 +1,85 @@
+var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
+var packageBody, ground, leftBox, bottomBox, rightBox;
+const Engine = Matter.Engine;
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+const Body = Matter.Body;
+
+function preload()
+{
+	helicopterIMG=loadImage("helicopter.png")
+	packageIMG=loadImage("package.png")
+}
+
+function setup() {
+	createCanvas(800, 700);
+	rectMode(CENTER);
+	
+
+	//packageSprite=createSprite(width/2, 80, 10,10);
+	//packageSprite.addImage(packageIMG)
+	//packageSprite.scale=0.2
+
+	helicopterSprite=createSprite(width/2, 200, 10,10);
+	helicopterSprite.addImage(helicopterIMG)
+	helicopterSprite.scale=0.6
+
+	groundSprite=createSprite(width/2, height-35, width,10);
+	groundSprite.shapeColor=color(255)
+
+
+	engine = Engine.create();
+	world = engine.world;
+
+	packageBody = Bodies.circle(width/2 , 200 , 20 , {restitution: 0.55, isStatic:true});
+	World.add(world, packageBody);
+	
+
+	//Create a Ground
+	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
+	World.add(world, ground);
+	 
+	
+	leftBox = Bodies.rectangle(width/2-50, 635, 10, 40, {isStatic: true});
+	bottomBox = Bodies.rectangle(width/2, 655, 110, 10, {isStatic: true});
+	rightBox = Bodies.rectangle(width/2+50, 635, 10, 40, {isStatic: true});
+	World.add(world, leftBox);
+	World.add(world, bottomBox);
+	World.add(world, rightBox);
+
+
+	Engine.run(engine);
+}
+
+
+function draw() {
+  rectMode(CENTER);
+  background(0);
+
+  if(keyDown("down")){
+	Matter.Body.setStatic(packageBody, false);
+  }
+
+  /*packageSprite.x= packageBody.position.x;
+  packageSprite.y= packageBody.position.y;*/
+  imageMode(CENTER);
+  image(packageIMG, packageBody.position.x, packageBody.position.y, 50, 50);
+  drawSprites();
+  fill("#ff0000");
+  rectMode(CENTER);
+  noStroke();
+  rect(leftBox.position.x, leftBox.position.y, 10, 40);
+  rect(bottomBox.position.x, bottomBox.position.y, 110, 10);
+  rect(rightBox.position.x, rightBox.position.y, 10, 40);
+}
+
+function keyPressed() {
+ if (keyCode === DOWN_ARROW) {
+    // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
+
+    
+  }
+}
+
+
+
